@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  neo4j:
+    image: neo4j:5.9-community
+    container_name: neo4j
+    ports:
+      - "7474:7474" # Interface web (Neo4j Browser)
+      - "7687:7687" # Bolt (para conexões do driver)
+    environment:
+      - NEO4J_AUTH=neo4j/passw0rd # Define o usuário/senha padrão
+      - NEO4J_dbms_memory_heap_initial__size=512m # Tamanho inicial do heap
+      - NEO4J_dbms_memory_heap_max__size=2G # Tamanho máximo do heap
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes # Aceita os termos de uso
+      - NEO4J_dbms_default__database=lineage
+    volumes:
+      - neo4j_data:/data # Persistência de dados
+      - neo4j_logs:/logs # Persistência de logs
+      - neo4j_import:/var/lib/neo4j/import # Diretório para importar arquivos
+      - neo4j_plugins:/plugins # Plugins personalizados
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_import:
+  neo4j_plugins:
